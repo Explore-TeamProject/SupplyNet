@@ -10,15 +10,49 @@ if (isset($_SESSION['UserID'])) {
     exit();
 }
 
-// Retrieve session messages if they exist
-$error = $_SESSION['error'] ?? '';
-$success = $_SESSION['success'] ?? '';
-$post_data = $_SESSION['post_data'] ?? [];
+$error = '';
+$success = '';
 
-// Clear session messages after retrieving them
-unset($_SESSION['error']);
-unset($_SESSION['success']);
-unset($_SESSION['post_data']);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = mysqli_real_escape_string($conn, trim($_POST['username'] ?? ''));
+    $email = mysqli_real_escape_string($conn, trim($_POST['email'] ?? ''));
+    $mobile = mysqli_real_escape_string($conn, trim($_POST['mobile'] ?? ''));
+    $address = mysqli_real_escape_string($conn, trim($_POST['address'] ?? ''));
+    
+    // Explicitly enforce hardcoded top-level admin security layer context
+    $role = 'admin'; 
+    
+    $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+
+    // Standard Form Layer Checks
+    if (empty($username) || empty($email) || empty($password)) {
+        $error = 'Please fill out all required fields marked with an asterisk (*).';
+    } elseif ($password !== $confirm_password) {
+        $error = 'Passwords do not match. Please ensure both fields are exactly the same.';
+    } elseif (strlen($password) < 6) {
+        $error = 'For security reasons, your password must be at least 6 characters long.';
+    } else {
+        // Prevent registering a duplicate email inside Users
+        $chk_email = mysqli_query($conn, "SELECT UserID FROM Users WHERE Email = '$email'");
+        if (mysqli_num_rows($chk_email) > 0) {
+            $error = 'An account with that email already exists. Please <a href="../login.php" style="color:inherit; text-decoration:underline;">login</a> securely instead.';
+        } else {
+            // Provide exact same hashing mechanism for compatibility explicitly securely
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            
+            // Commit to Database
+            $query = "INSERT INTO Users (UserName, Password, Email, Role, mobile_number, address) 
+                      VALUES ('$username', '$hashed_password', '$email', '$role', '$mobile', '$address')";
+            
+            if (mysqli_query($conn, $query)) {
+                $success = 'System Administrator account successfully created! You may now <a href="../login.php" class="alert-link">proceed to login</a>.';
+            } else {
+                $error = 'Database Configuration Error: ' . mysqli_error($conn);
+            }
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,8 +65,8 @@ unset($_SESSION['post_data']);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" crossorigin="anonymous" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
     
     <style>
         :root {
@@ -143,8 +177,49 @@ unset($_SESSION['post_data']);
             margin-bottom: 2rem;
         }
     </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/SupplyNet/favicon.ico">
+    <!-- Global Preloader Style -->
+    <style>
+        #global-preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .preloader-spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4e73df;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
+
+<!-- Global Preloader -->
+<div id="global-preloader">
+    <div class="preloader-spinner"></div>
+</div>
+<script>
+    window.addEventListener("load", function() {
+        const preloader = document.getElementById("global-preloader");
+        if (preloader) {
+            preloader.style.opacity = "0";
+            preloader.style.visibility = "hidden";
+            setTimeout(function() {
+                preloader.style.display = "none";
+            }, 500);
+        }
+    });
+</script>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -188,16 +263,16 @@ unset($_SESSION['post_data']);
                                     </div>
                                     
                                     <div class="col-sm-6 mb-3">
-                                        <input type="text" class="form-control" name="username" placeholder="Admin Full Name *" required value="<?php echo htmlspecialchars($post_data['username'] ?? ''); ?>">
+                                        <input type="text" class="form-control" name="username" placeholder="Admin Full Name *" required value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>">
                                     </div>
                                     <div class="col-sm-6 mb-3">
-                                        <input type="text" class="form-control" name="mobile" placeholder="Mobile Number" value="<?php echo htmlspecialchars($post_data['mobile'] ?? ''); ?>">
+                                        <input type="text" class="form-control" name="mobile" placeholder="Mobile Number" value="<?php echo htmlspecialchars($_POST['mobile'] ?? ''); ?>">
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <input type="email" class="form-control" name="email" placeholder="Admin Email Address *" required value="<?php echo htmlspecialchars($post_data['email'] ?? ''); ?>">
+                                        <input type="email" class="form-control" name="email" placeholder="Admin Email Address *" required value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <textarea class="form-control" name="address" rows="2" placeholder="Full Address / Branch Location"><?php echo htmlspecialchars($post_data['address'] ?? ''); ?></textarea>
+                                        <textarea class="form-control" name="address" rows="2" placeholder="Full Address / Branch Location"><?php echo htmlspecialchars($_POST['address'] ?? ''); ?></textarea>
                                     </div>
                                     <div class="col-sm-6 mb-4">
                                         <input type="password" class="form-control" name="password" placeholder="Secure Password *" required minlength="6">
@@ -224,7 +299,7 @@ unset($_SESSION['post_data']);
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

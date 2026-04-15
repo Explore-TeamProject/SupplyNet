@@ -102,8 +102,8 @@ if ($res_fb) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Feedback - SupplyNet Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" crossorigin="anonymous" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
     <style>
         :root { --primary-color: #4e73df; --sidebar-width: 250px; }
         body { font-family: 'Inter', sans-serif; background-color: #f8f9fc; overflow-x: hidden; }
@@ -129,8 +129,49 @@ if ($res_fb) {
             .sidebar-overlay.show { display: block; }
         }
 </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/SupplyNet/favicon.ico">
+    <!-- Global Preloader Style -->
+    <style>
+        #global-preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .preloader-spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4e73df;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
+
+<!-- Global Preloader -->
+<div id="global-preloader">
+    <div class="preloader-spinner"></div>
+</div>
+<script>
+    window.addEventListener("load", function() {
+        const preloader = document.getElementById("global-preloader");
+        if (preloader) {
+            preloader.style.opacity = "0";
+            preloader.style.visibility = "hidden";
+            setTimeout(function() {
+                preloader.style.display = "none";
+            }, 500);
+        }
+    });
+</script>
 
 <div class="sidebar">
     <a href="index.php" class="brand"><i class="fas fa-cubes me-2"></i>SupplyNet<br><small class="text-white-50" style="font-size: 0.7rem;">Admin Panel</small></a>
@@ -304,10 +345,9 @@ if ($res_fb) {
             </div>
         </div>
     </div>
-    <?php include '../config/footer.php'; ?>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

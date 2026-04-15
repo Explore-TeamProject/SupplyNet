@@ -1,4 +1,11 @@
 <?php
+// Performance Optimizations: Enable GZIP Compression
+if (!ini_get('zlib.output_compression') && !headers_sent()) {
+    if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) {
+        ini_set('zlib.output_compression', 'On');
+        ini_set('zlib.output_compression_level', '5');
+    }
+}
 
 // Database credentials
 define('DB_HOST', 'mysql-abhihours24-6206.d.aivencloud.com');

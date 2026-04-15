@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" crossorigin="anonymous" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
     
     <style>
         :root {
@@ -68,8 +68,49 @@
         .mv-box h4 { color: #fff; }
         .mv-box p { color: rgba(255,255,255,0.9) !important; }
     </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/SupplyNet/favicon.ico">
+    <!-- Global Preloader Style -->
+    <style>
+        #global-preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .preloader-spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4e73df;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
+
+<!-- Global Preloader -->
+<div id="global-preloader">
+    <div class="preloader-spinner"></div>
+</div>
+<script>
+    window.addEventListener("load", function() {
+        const preloader = document.getElementById("global-preloader");
+        if (preloader) {
+            preloader.style.opacity = "0";
+            preloader.style.visibility = "hidden";
+            setTimeout(function() {
+                preloader.style.display = "none";
+            }, 500);
+        }
+    });
+</script>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light navbar-custom sticky-top shadow-sm py-3">
@@ -268,7 +309,7 @@
 <?php include 'config/footer.php'; ?>
 
 <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 </body>
 </html>

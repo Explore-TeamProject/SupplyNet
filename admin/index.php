@@ -79,10 +79,10 @@ $role_json = json_encode(array_values($role_data));
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" crossorigin="anonymous" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" crossorigin="anonymous"></script>
 
     <style>
         :root {
@@ -307,9 +307,50 @@ $role_json = json_encode(array_values($role_data));
             }
         }
     </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/SupplyNet/favicon.ico">
+    <!-- Global Preloader Style -->
+    <style>
+        #global-preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .preloader-spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4e73df;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 
 <body>
+
+<!-- Global Preloader -->
+<div id="global-preloader">
+    <div class="preloader-spinner"></div>
+</div>
+<script>
+    window.addEventListener("load", function() {
+        const preloader = document.getElementById("global-preloader");
+        if (preloader) {
+            preloader.style.opacity = "0";
+            preloader.style.visibility = "hidden";
+            setTimeout(function() {
+                preloader.style.display = "none";
+            }, 500);
+        }
+    });
+</script>
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -320,7 +361,6 @@ $role_json = json_encode(array_values($role_data));
                     Dashboard</a></div>
             <div class="nav-item"><a href="user_management.php" class="nav-link"><i class="fas fa-users"></i> User
                     Management</a></div>
-            <div class="nav-item"><a href="admin_approvals.php" class="nav-link"><i class="fas fa-user-shield"></i> Admin Approvals</a></div>
             <div class="nav-item"><a href="products_directory.php" class="nav-link"><i class="fas fa-box-open"></i>
                     Products Directory</a></div>
             <div class="nav-item"><a href="orders_hub.php" class="nav-link"><i class="fas fa-truck-loading"></i> Orders
@@ -549,12 +589,12 @@ $role_json = json_encode(array_values($role_data));
                 </div>
             </div>
         </div>
-        <?php include '../config/footer.php'; ?>
+        
     </div>
 </div>
 
 <!-- Bootstrap Bundle JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
     <!-- Chart.js Setup -->
     <script>

@@ -51,6 +51,23 @@ if (!isset($_GET['code']) && !isset($_POST['provider'])) {
     ?>
 <html>
 <body>
+
+<!-- Global Preloader -->
+<div id="global-preloader">
+    <div class="preloader-spinner"></div>
+</div>
+<script>
+    window.addEventListener("load", function() {
+        const preloader = document.getElementById("global-preloader");
+        if (preloader) {
+            preloader.style.opacity = "0";
+            preloader.style.visibility = "hidden";
+            setTimeout(function() {
+                preloader.style.display = "none";
+            }, 500);
+        }
+    });
+</script>
 <form method="post">
     <h1>Select Provider</h1>
     <input type="radio" name="provider" value="Google" id="providerGoogle">

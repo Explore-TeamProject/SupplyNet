@@ -16,8 +16,8 @@ $basePath = (strpos($_SERVER['REQUEST_URI'], '/SupplyNet') !== false) ? '/Supply
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" crossorigin="anonymous" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
 
     <style>
         :root {
@@ -224,9 +224,50 @@ $basePath = (strpos($_SERVER['REQUEST_URI'], '/SupplyNet') !== false) ? '/Supply
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
         }
     </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/SupplyNet/favicon.ico">
+    <!-- Global Preloader Style -->
+    <style>
+        #global-preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .preloader-spinner {
+            width: 50px; height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4e73df;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 
 <body>
+
+<!-- Global Preloader -->
+<div id="global-preloader">
+    <div class="preloader-spinner"></div>
+</div>
+<script>
+    window.addEventListener("load", function() {
+        const preloader = document.getElementById("global-preloader");
+        if (preloader) {
+            preloader.style.opacity = "0";
+            preloader.style.visibility = "hidden";
+            setTimeout(function() {
+                preloader.style.display = "none";
+            }, 500);
+        }
+    });
+</script>
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light navbar-custom sticky-top shadow-sm py-3">
@@ -286,7 +327,7 @@ $basePath = (strpos($_SERVER['REQUEST_URI'], '/SupplyNet') !== false) ? '/Supply
                 <div class="developer-card">
                     <div class="role-badge role-guider">Project Guider</div>
                     <div class="card-img-wrapper">
-                        <img src="uploads/DhaneshwarMardi.jpg" alt="Dhaneshwar Mardi"
+                        <img src="protected-file.php?path=DhaneshwarMardi.jpg" alt="Dhaneshwar Mardi"
                             onerror="this.src='https://ui-avatars.com/api/?name=Dhaneshwar+Mardi&background=e74a3b&color=fff&size=800'">
                     </div>
                     <div class="card-body">
@@ -313,7 +354,7 @@ $basePath = (strpos($_SERVER['REQUEST_URI'], '/SupplyNet') !== false) ? '/Supply
                 <div class="developer-card">
                     <div class="role-badge role-manager">Project Manager/Backend Developer</div>
                     <div class="card-img-wrapper">
-                        <img src="uploads/AbhijitSahooabhi.jpeg" alt="Abhijit Sahoo"
+                        <img src="protected-file.php?path=AbhijitSahooabhi.jpeg" alt="Abhijit Sahoo"
                             onerror="this.src='https://ui-avatars.com/api/?name=Abhijit+Sahoo&background=4e73df&color=fff&size=800'">
                     </div>
                     <div class="card-body">
@@ -341,7 +382,7 @@ $basePath = (strpos($_SERVER['REQUEST_URI'], '/SupplyNet') !== false) ? '/Supply
                 <div class="developer-card">
                     <div class="role-badge role-member">Lead Developer</div>
                     <div class="card-img-wrapper">
-                        <img src="uploads/PikeshRoul.jpeg" alt="Pikesh Roul"
+                        <img src="protected-file.php?path=PikeshRoul.jpeg" alt="Pikesh Roul"
                             onerror="this.src='https://ui-avatars.com/api/?name=Pikesh+Roul&background=1cc88a&color=fff&size=800'">
                     </div>
                     <div class="card-body">
@@ -364,7 +405,61 @@ $basePath = (strpos($_SERVER['REQUEST_URI'], '/SupplyNet') !== false) ? '/Supply
                 </div>
             </div>
 
+            <!-- Team Member 4: Debadata Rout -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="developer-card">
+                    <div class="role-badge role-member">Database Developer</div>
+                    <div class="card-img-wrapper">
+                        <img src="protected-file.php?path=DebadataRout.jpeg" alt="Debadata Rout"
+                            onerror="this.src='https://ui-avatars.com/api/?name=Debadata+Rout&background=1cc88a&color=fff&size=800'">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="dev-name">Debadata Rout</h3>
+                        <div class="dev-qualification">Database Developer</div>
 
+                        <p class="dev-description">
+                            Debadata Rout is the creative force behind SupplyNet's user interface as the Lead Frontend
+                            Developer. He specializes in crafting modern, responsive, and highly interactive user
+                            experiences, utilizing state-of-the-art web technologies to deliver a premium feel.
+                        </p>
+
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/debadata-rout/" target="_blank"
+                                class="social-btn linkedin" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="mailto:routdebdata2003@gmail.com" class="social-btn email" title="Email"><i
+                                    class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 5: Pabitra Ojha -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="developer-card">
+                    <div class="role-badge role-member">Frontend Developer</div>
+                    <div class="card-img-wrapper">
+                        <img src="protected-file.php?path=PabitraOjha.png" alt="Pabitra Ojha"
+                            onerror="this.src='https://ui-avatars.com/api/?name=Pabitra+Ojha&background=1cc88a&color=fff&size=800'">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="dev-name">Pabitra Ojha</h3>
+                        <div class="dev-qualification">Frontend Developer</div>
+
+                        <p class="dev-description">
+                            Pabitra Ojha is the creative force behind SupplyNet's user interface as the Frontend
+                            Developer. He specializes in crafting modern, responsive, and highly interactive user
+                            experiences, utilizing state-of-the-art web technologies to deliver a premium feel.
+                        </p>
+
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/pabitra-ojha/" target="_blank"
+                                class="social-btn linkedin" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="mailto:pabitraojha60@gmail.com" class="social-btn email" title="Email"><i
+                                    class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -372,7 +467,7 @@ $basePath = (strpos($_SERVER['REQUEST_URI'], '/SupplyNet') !== false) ? '/Supply
     <?php include 'config/footer.php'; ?>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 </body>
 
